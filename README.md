@@ -1,6 +1,6 @@
 # go-telegram-bot
 
-MyTelegramBot is a flexible Go package for creating Telegram bots with optional state management. It supports both complex stateful bots and simple stateless logging bots, making it easy to integrate Telegram bot functionalities into your applications.
+go-telegram-bot is a flexible Go package for creating Telegram bots with optional state management. It supports both complex stateful bots and simple stateless logging bots, making it easy to integrate Telegram bot functionalities into your applications.
 
 ## Features
 
@@ -14,7 +14,7 @@ MyTelegramBot is a flexible Go package for creating Telegram bots with optional 
 To install the package, use:
 
 ```sh
-go get -u github.com/yourusername/mytelegrambot
+go get -u github.com/ashkenazi1/go-telegram-bot
 ```
 
 ## Usage
@@ -27,20 +27,20 @@ package main
 
 import (
     "log"
-    "mytelegrambot"
+    "go-telegram-bot"
 
     tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
     // Example for stateful bot
-    statefulConfig := mytelegrambot.BotConfig{
+    statefulConfig := go-telegram-bot.BotConfig{
         Token:    "YOUR_TELEGRAM_BOT_TOKEN",
         DebugMode: true,
         OwnerID:  123456789, // Replace with your owner ID
         UseState: true,
     }
-    statefulBot, err := mytelegrambot.NewBot(statefulConfig)
+    statefulBot, err := go-telegram-bot.NewBot(statefulConfig)
     if err != nil {
         log.Panic(err)
     }
@@ -52,14 +52,14 @@ func main() {
     go statefulBot.Start()
 
     // Example for stateless logging bot
-    statelessConfig := mytelegrambot.BotConfig{
+    statelessConfig := go-telegram-bot.BotConfig{
         Token:     "YOUR_TELEGRAM_BOT_TOKEN",
         DebugMode: true,
         OwnerID:   123456789, // Replace with your owner ID
         ChannelID: -1001234567890, // Your channel ID
         UseState:  false,
     }
-    statelessBot, err := mytelegrambot.NewBot(statelessConfig)
+    statelessBot, err := go-telegram-bot.NewBot(statelessConfig)
     if err != nil {
         log.Panic(err)
     }
@@ -70,13 +70,13 @@ func main() {
     }
 }
 
-func handleStartState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+func handleStartState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     msg := tgbotapi.NewMessage(message.Chat.ID, "Hello! How can I assist you? (type 'greet' or 'bye')")
     bot.API.Send(msg)
     bot.StateManager.SetState(message.Chat.ID, "greeting")
 }
 
-func handleGreetingState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+func handleGreetingState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     switch message.Text {
     case "greet":
         msg := tgbotapi.NewMessage(message.Chat.ID, "Nice to meet you! How are you?")
@@ -91,7 +91,7 @@ func handleGreetingState(bot *mytelegrambot.Bot, message *tgbotapi.Message, user
     }
 }
 
-func handleFarewellState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+func handleFarewellState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     msg := tgbotapi.NewMessage(message.Chat.ID, "You have already said goodbye. Type 'start' to begin again.")
     bot.API.Send(msg)
     if message.Text == "start" {
@@ -146,13 +146,13 @@ Register state handlers if you are using stateful mode:
 
 Implement state handlers to manage bot interactions:
 
-```func handleStartState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+```func handleStartState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     msg := tgbotapi.NewMessage(message.Chat.ID, "Hello! How can I assist you? (type 'greet' or 'bye')")
     bot.API.Send(msg)
     bot.StateManager.SetState(message.Chat.ID, "greeting")
 }
 
-func handleGreetingState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+func handleGreetingState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     switch message.Text {
     case "greet":
         msg := tgbotapi.NewMessage(message.Chat.ID, "Nice to meet you! How are you?")
@@ -167,7 +167,7 @@ func handleGreetingState(bot *mytelegrambot.Bot, message *tgbotapi.Message, user
     }
 }
 
-func handleFarewellState(bot *mytelegrambot.Bot, message *tgbotapi.Message, userState *mytelegrambot.UserState) {
+func handleFarewellState(bot *go-telegram-bot.Bot, message *tgbotapi.Message, userState *go-telegram-bot.UserState) {
     msg := tgbotapi.NewMessage(message.Chat.ID, "You have already said goodbye. Type 'start' to begin again.")
     bot.API.Send(msg)
     if message.Text == "start" {
