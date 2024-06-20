@@ -1,4 +1,4 @@
-# MyTelegramBot
+# go-telegram-bot
 
 MyTelegramBot is a flexible Go package for creating Telegram bots with optional state management. It supports both complex stateful bots and simple stateless logging bots, making it easy to integrate Telegram bot functionalities into your applications.
 
